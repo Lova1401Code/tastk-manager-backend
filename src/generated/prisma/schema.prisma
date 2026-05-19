@@ -16,5 +16,5 @@ model Task {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-   @@schema("task_schema")
+  @@schema("task_schema")
 }
