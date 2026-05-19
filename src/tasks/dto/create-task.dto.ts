@@ -1,4 +1,4 @@
-import { IsString, MinLength } from "class-validator";
+import { IsIn, IsOptional, IsString, MinLength } from "class-validator";
 
 export class CreateTaskDto {
     id?: number;
@@ -10,6 +10,22 @@ export class CreateTaskDto {
     @IsString()
     @MinLength(10)
     description!: string;    
+
+    @IsString()
+    @IsOptional()
+    @IsIn([
+        'OPEN', 
+        'IN_PROGRESS', 
+        'DONE', 
+        'ARCHIVED', 
+        'DELETED', 
+        'CANCELED', 
+        'PENDING', 
+        'REJECTED', 
+        'APPROVED'  
+    ])
+    status?: string;
+
 
 }
 
