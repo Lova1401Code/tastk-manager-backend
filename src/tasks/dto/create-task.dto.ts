@@ -1,8 +1,6 @@
 import { IsIn, IsOptional, IsString, MinLength } from "class-validator";
 
 export class CreateTaskDto {
-    id?: number;
-
     @IsString()
     @MinLength(3)
     title!: string;

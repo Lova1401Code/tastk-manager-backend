@@ -11,9 +11,9 @@ export class TasksController {
         return this.tasksService.create(createTaskDto);
     }
 
-    @Patch()
-    update(@Body() updateTaskDto: CreateTaskDto) {
-        return this.tasksService.update(updateTaskDto);
+    @Patch(':id')
+    update(@Param('id') id: number, @Body() updateTaskDto: CreateTaskDto) {
+        return this.tasksService.update(id, updateTaskDto);
     }
 
     @Get()

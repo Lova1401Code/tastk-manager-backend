@@ -13,9 +13,9 @@ export class TasksService {
         });
     }
     
-    update(updateTaskDto: UpdateTaskDto){
+    update(id: number, updateTaskDto: UpdateTaskDto){
         return this.prisma.task.update({
-            where: { id: updateTaskDto.id },
+            where: { id },
             data: updateTaskDto,
         });
     }
