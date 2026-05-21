@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
@@ -7,31 +7,51 @@ import { UpdateTaskDto } from './dto/update-task.dto';
 export class TasksService {
     constructor(private readonly prisma: PrismaService) {}
 
-    create(createTaskDto: CreateTaskDto){
-        return this.prisma.task.create({
+    async testTaskInDatabase(taskId: number) {
+        const id = taskId;
+        const task = await this.prisma.task.findUnique({
+            where: {
+                id
+            }
+        });
+
+        if (!task) {
+            throw new NotFoundException(`Task with id ${id} not found`);
+        }
+    }
+
+    async create(createTaskDto: CreateTaskDto){
+        return await this.prisma.task.create({
             data: createTaskDto,
         });
     }
     
-    update(id: number, updateTaskDto: UpdateTaskDto){
-        return this.prisma.task.update({
+    async update(id: number, updateTaskDto: UpdateTaskDto){
+
+        this.testTaskInDatabase(id);
+
+        return await this.prisma.task.update({
             where: { id },
             data: updateTaskDto,
         });
     }
 
-    findAll() {
-        return this.prisma.task.findMany();
+    async findAll() {
+        return await this.prisma.task.findMany();
     }
 
-    findOne(id: number) {
-        return this.prisma.task.findUnique({
+    async findOne(id: number) {
+        this.testTaskInDatabase(id)
+
+        return await this.prisma.task.findUnique({
             where: { id },
         });
     }
 
-    remove(id: number) {
-        return this.prisma.task.delete({
+    async remove(id: number) {
+        this.testTaskInDatabase(id)
+
+        return await this.prisma.task.delete({
             where: { id },
         });
     }

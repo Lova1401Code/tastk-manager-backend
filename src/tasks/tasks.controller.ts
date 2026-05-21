@@ -26,8 +26,8 @@ export class TasksController {
         return this.tasksService.findOne(id);
     }
 
-    @Delete()
-    delete(@Body('id') id: number) {
+    @Delete(':id')
+    delete(@Param('id') id: number) {
         return this.tasksService.remove(id);
     }
 }
